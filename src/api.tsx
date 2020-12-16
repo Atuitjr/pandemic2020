@@ -1,4 +1,10 @@
 const baseUrl = `https://${process.env.REACT_APP_HOST}/`;
+export const headers = {
+    headers: {
+        'x-rapidapi-key': process.env.REACT_APP_RAPIDAPI_KEY,
+        'x-rapidapi-host': process.env.REACT_APP_HOST,
+    },
+};
 
 //SEARCH A COUNTRY
 export const searchCountryURL = (country: string = ''): string => {
