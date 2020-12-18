@@ -1,7 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { loadCountries } from '../actions/countriesAction';
+
+import Dropdown from '../components/Dropdown';
 
 const Home = () => {
     const dispatch = useDispatch();
@@ -9,14 +11,9 @@ const Home = () => {
         dispatch(loadCountries());
     }, [dispatch]);
 
-    //get data from store
-    const { countries } = useSelector((state: any) => state.countries);
-
     return (
         <div className='container'>
-            {countries.map((country: string) => (
-                <h1>{country}</h1>
-            ))}
+            <Dropdown />
         </div>
     );
 };
