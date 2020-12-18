@@ -1,5 +1,6 @@
 const initState = {
     countries: [],
+    countryData: [],
 };
 
 const gamesReducer = (state: any = initState, action: any) => {
@@ -8,6 +9,11 @@ const gamesReducer = (state: any = initState, action: any) => {
             return {
                 ...state,
                 countries: action.payload.countries,
+            };
+        case 'FETCH_COUNTRY_DATA':
+            return {
+                ...state,
+                countryData: action.payload.country,
             };
         default:
             return { ...state };

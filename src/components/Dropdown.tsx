@@ -1,21 +1,31 @@
 import styled from 'styled-components';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+
+import { loadCountryData } from '../actions/countriesAction';
 
 import up from '../images/up.svg';
 import down from '../images/down.svg';
 
 const Dropdown = () => {
+    const dispatch = useDispatch();
     const [show, setShow] = useState(false);
     const [selected, setSelected] = useState(0);
 
     //get data from store
     const { countries } = useSelector((state: any) => state.countries);
 
+    const liClicked = (position: number) => {
+        const countryName = position >= 0 ? countries[position] : 'ALL';
+        setSelected(position);
+        setShow(!show);
+        dispatch(loadCountryData(countryName));
+    };
+
     return (
         <DropdownStyle>
             <DropdownTop onClick={() => setShow(!show)}>
-                <h2>{countries[selected]}</h2>
+                <h2>{selected >= 0 ? countries[selected] : 'World'}</h2>
                 {show ? (
                     <img src={up} alt='UP' />
                 ) : (
@@ -27,21 +37,26 @@ const Dropdown = () => {
                     {countries.map((country: string, index: number) => (
                         <LiStyled
                             key={`li${index}`}
-                            className='dd-list-item'
                             style={{
                                 background:
                                     selected === index
                                         ? '#f5f5f5'
                                         : 'transparent',
                             }}
-                            onClick={() => {
-                                setSelected(index);
-                                setShow(!show);
-                            }}
+                            onClick={() => liClicked(index)}
                         >
                             <p>{country}</p>
                         </LiStyled>
                     ))}
+                    <LiStyled
+                        style={{
+                            background:
+                                selected === -1 ? '#f5f5f5' : 'transparent',
+                        }}
+                        onClick={() => liClicked(-1)}
+                    >
+                        <p>World</p>
+                    </LiStyled>
                 </ul>
             )}
         </DropdownStyle>
